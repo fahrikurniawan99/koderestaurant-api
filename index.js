@@ -7,11 +7,8 @@ const cors = require("cors");
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-const db = require("./database");
+// const db = require("./database");
 const ProductRoute = require("./app/product/route");
-
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
 
 app.use(cors("*"));
 app.use(logger("dev"));
@@ -32,9 +29,9 @@ app.use((error, req, res, next) => {
   return res.send(error);
 });
 
-db.on("open", () => {
-  console.log(`database connection success`);
-});
+// db.on("open", () => {
+//   console.log(`database connection success`);
+// });
 app.listen(PORT, () => {
   console.log(`server was listening in port ${PORT}`);
 });
