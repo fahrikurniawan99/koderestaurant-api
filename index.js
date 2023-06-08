@@ -34,9 +34,9 @@ app.use((error, req, res, next) => {
 
 db.on("open", () => {
   console.log(`database connection success`);
-  app.listen(PORT, () => {
-    console.log(`server was listening in port ${PORT}`);
-  });
+});
+app.listen(PORT, () => {
+  console.log(`server was listening in port ${PORT}`);
 });
 
 module.exports = app;
