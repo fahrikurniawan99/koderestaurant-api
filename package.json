@@ -1,0 +1,22 @@
+{
+  "name": "rekash",
+  "version": "1.0.0",
+  "description": "Rekash adalah sebuah sistem point of sales (POS) yang membuat transaksi digital menjadi mudah. Lalu apa itu POS sistem, Point of Sales (POS) adalah sebuah sistem yang dapat mendukung transaksi penjualan, pembelian, pengelolaan produk maupun laporan transaksi secara digital.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fahrikurniawan99/rekash.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fahrikurniawan99/rekash/issues"
+  },
+  "homepage": "https://github.com/fahrikurniawan99/rekash#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
