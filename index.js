@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 require("./database");
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const ProductRouter = require("./app/Product/router");
 
 app.get("/", (req, res) => res.json({ message: "hello world" }));
