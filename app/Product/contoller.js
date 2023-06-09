@@ -1,4 +1,5 @@
 const Product = require("./model");
+const fs = require("fs");
 
 const getAllProduct = async (req, res) => {
   try {
@@ -7,6 +8,7 @@ const getAllProduct = async (req, res) => {
       data: products,
     });
   } catch (error) {
+    fs.unlinkSync(req?.file?.originalname);
     return res.status(500).json({
       message: error?.message ?? "Internal server error",
       error,
@@ -20,7 +22,6 @@ const createProduct = async (req, res) => {
     const newProduct = new Product({
       name: payload.name,
     });
-    console.log(req.file);
     await newProduct.save();
     return res.status(200).json({
       message: "product created",

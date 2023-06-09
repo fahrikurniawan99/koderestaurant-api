@@ -4,6 +4,7 @@ require("./database");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public/"));
 
 const ProductRouter = require("./app/Product/router");
 
