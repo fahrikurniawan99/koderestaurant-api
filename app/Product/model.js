@@ -11,14 +11,23 @@ const ProductSchema = new Schema(
     description: {
       type: String,
       maxLength: [1000, "deskripsi maksimal 1000 karakter"],
-      minLength: [10, "harga produk minimal 10 karakter"],
+      minLength: [10, "deskripsi produk minimal 10 karakter"],
       required: [true, "silahkan isi deskripsi produk"],
     },
     price: {
       type: Number,
       required: [true, "silahkan isi harga produk"],
     },
-    image_url: { type: String, required: [true, "silahkan isi gambar produk"] },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+    },
+    tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+    image: {
+      url: String,
+      public_id: String,
+      placeholder: String,
+    },
   },
   { timestamps: true }
 );

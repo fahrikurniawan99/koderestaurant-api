@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const controller = require("./contoller");
+const controller = require("./controller");
 const upload = require("../libs/upload");
 
 router.get("/products", controller.getAllProduct);

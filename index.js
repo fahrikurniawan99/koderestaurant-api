@@ -3,22 +3,28 @@ const app = express();
 require("./app/database");
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(express.static("public/"));
 
 const ProductRouter = require("./app/Product/router");
+const CategoryRouter = require("./app/Category/router");
+const TagRouter = require("./app/Tag/router");
 
 app.get("/", (req, res) => res.json({ message: "hello world" }));
 app.use("/api", ProductRouter);
-app.get("/categories", (req, res) => res.json({ message: "categories route" }));
+app.use("/api", CategoryRouter);
+app.use("/api", TagRouter);
 
 // app.use((req, res, next) => {
 //   res.json({ message: "route not exist" });
 // });
 
 app.use((error, req, res, next) => {
-  const isValidationError = error._message;
-  if (isValidationError) {
+  if (error.name === "ValidationError") {
     let errorFields = {};
     Object.keys(error.errors).forEach(
       (key) =>
@@ -27,14 +33,20 @@ app.use((error, req, res, next) => {
           [key]: String(error.errors[key].message).toLowerCase(),
         })
     );
-    return res.status(401).json({
-      fields: errorFields,
-      message: String(error._message).toLowerCase(),
+    return res.status(400).json({
+      message: errorFields,
+      error,
     });
   }
-  console.log(error);
-  return res.status(500).json({
+  if (error.name === "CastError") {
+    return res.status(error.statusCode).json({
+      message: "silahkan masukan id yang valid",
+      error,
+    });
+  }
+  return res.status(error.statusCode ?? 500).json({
     meessage: String(error.message ?? "Internal server error").toLowerCase(),
+    error,
   });
 });
 

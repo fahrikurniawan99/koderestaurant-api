@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/fahrikurniawan99/rekash#readme",
   "dependencies": {
+    "cloudinary": "^1.37.1",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "mongoose": "^7.2.2",
