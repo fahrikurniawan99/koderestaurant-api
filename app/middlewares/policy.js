@@ -11,11 +11,6 @@ const rules = {
     can("update", "User", { _id: userId });
     can("read", "Cart", { userId });
     can("update", "Cart", { userId });
-    can("view", "DeliveryAddress");
-    can("create", "DeliveryAddress", { userId });
-    can("read", "DeliveryAddress", { userId });
-    can("update", "DeliveryAddress", { userId });
-    can("delete", "DeliveryAddress", { userId });
     can("read", "Invoice", { userId });
   },
   admin(userId, { can }) {
