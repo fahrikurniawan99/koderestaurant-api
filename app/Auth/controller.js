@@ -60,15 +60,19 @@ const login = (req, res, next) => {
 
 const refreshToken = async (req, res, next) => {
   try {
-    const refreshToken = jwt.verify(
+    const refreshToken = req.cookies.refreshToken;
+    const refreshTokenPayload = jwt.verify(
       req.cookies.refreshToken,
       process.env.REFRESH_TOKEN_SECRET_KEY
     );
-    const user = await User.findById(refreshToken.userId);
+    const user = await User.findOneAndUpdate(
+      { _id: refreshTokenPayload.userId, token: { $in: [refreshToken] } },
+      { $pull: { token: refreshToken } }
+    );
     if (!user) {
-      const error = new Error("user tidak terdaftar");
+      const error = new Error("refresh token kadaluarsa");
       error.statusCode = 401;
-      error.message = "unauthorized";
+      error.name = "unauthorized";
       throw error;
     }
     const accessToken = jwt.sign(
@@ -103,6 +107,7 @@ const logout = async (req, res, next) => {
     if (!user) {
       const error = new Error("refresh token kadaluarsa");
       error.statusCode = 401;
+      error.name = "unauthorized";
       throw error;
     }
     return res.status(200).json({ message: "logout berhasil" });

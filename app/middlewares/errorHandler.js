@@ -20,7 +20,7 @@ const errorHandler = (error, req, res, next) => {
     });
   }
   if (error.name === "TokenExpiredError") {
-    error.message = "token kadaluarsa";
+    error.message = "akses token kadaluarsa";
     return res.status(401).json({
       message: error.message,
       error,
