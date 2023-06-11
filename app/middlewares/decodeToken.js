@@ -4,17 +4,17 @@ const User = require("../User/model");
 
 const decodeToken = async (req, res, next) => {
   try {
-    const token = req.headers.authorization
+    const accessToken = req.headers.authorization
       ? String(req.headers.authorization).replace("Bearer ", "")
       : null;
-    if (!token) {
-      const error = new Error("kamu tidak memiliki akses");
+    if (!accessToken) {
+      const error = new Error("akses token di butuhkan");
       error.statusCode = 401;
       error.name = "unauthorized";
       throw error;
     }
     const accessTokenPayload = jwt.verify(
-      token,
+      accessToken,
       process.env.ACCESS_TOKEN_SECRET_KEY
     );
     const user = await User.findById(accessTokenPayload.userId);
@@ -24,7 +24,7 @@ const decodeToken = async (req, res, next) => {
       error.name = "unauthorized";
       throw error;
     }
-    req.userId = user._id;
+    req.user = { userId: user._id, role: user.role };
     next();
   } catch (error) {
     next(error);

@@ -62,13 +62,14 @@ const refreshToken = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.refreshToken;
     const refreshTokenPayload = jwt.verify(
-      req.cookies.refreshToken,
+      refreshToken,
       process.env.REFRESH_TOKEN_SECRET_KEY
     );
-    const user = await User.findOneAndUpdate(
-      { _id: refreshTokenPayload.userId, token: { $in: [refreshToken] } },
-      { $pull: { token: refreshToken } }
-    );
+    const userId = refreshTokenPayload.userId;
+    const user = await User.findOne({
+      _id: userId,
+      token: { $in: [refreshToken] },
+    });
     if (!user) {
       const error = new Error("refresh token kadaluarsa");
       error.statusCode = 401;
@@ -118,7 +119,7 @@ const logout = async (req, res, next) => {
 
 const profile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.user.userId);
     return res.status(200).json({
       data: {
         name: user.name,

@@ -14,8 +14,8 @@ const errorHandler = (error, req, res, next) => {
     });
   }
   if (error.name === "CastError") {
-    return res.status(error.statusCode).json({
-      message: "silahkan masukan id yang valid",
+    return res.status(400).json({
+      message: error.message,
       error,
     });
   }
