@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 require("./app/database");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 app.use(express.json());
 app.use(
@@ -11,6 +12,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.static("public/"));
+app.use(cors("*"));
 
 const ProductRouter = require("./app/Product/router");
 const CategoryRouter = require("./app/Category/router");
