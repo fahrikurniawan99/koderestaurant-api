@@ -31,4 +31,4 @@ app.use("/api/auth", AuthRouter);
 
 app.use(errorHandler);
 
-app.listen(4000, () => console.log("server running"));
+app.listen(process.env.PORT || 4000, () => console.log("server running"));
