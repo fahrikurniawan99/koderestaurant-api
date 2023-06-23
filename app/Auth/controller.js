@@ -25,6 +25,11 @@ const register = async (req, res, next) => {
 const login = (req, res, next) => {
   passport.authenticate("local", async (error, user) => {
     try {
+      if (!user) {
+        const error = new Error("password atau email salah");
+        error.statusCode = 400;
+        return next(error);
+      }
       if (error) {
         return next(error);
       }
