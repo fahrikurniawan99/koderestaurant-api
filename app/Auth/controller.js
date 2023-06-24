@@ -33,28 +33,19 @@ const login = (req, res, next) => {
       if (error) {
         return next(error);
       }
-      const accessToken = jwt.sign(
+      const token = jwt.sign(
         { userId: user._id },
-        process.env.ACCESS_TOKEN_SECRET_KEY,
-        {
-          expiresIn: process.env.ACCESS_TOKEN_EXPIRED,
-        }
-      );
-      const refreshToken = jwt.sign(
-        { userId: user._id },
-        process.env.REFRESH_TOKEN_SECRET_KEY
+        process.env.TOKEN_SECRET_KEY
       );
 
       await User.findByIdAndUpdate(user._id, {
-        $push: { token: refreshToken },
+        $push: { token: token },
       });
-
-      res.cookie("refreshToken", refreshToken, { httpOnly: true });
 
       return res.status(200).json({
         message: "login berhasil",
         data: {
-          accessToken,
+          token,
         },
       });
     } catch (error) {
@@ -63,59 +54,10 @@ const login = (req, res, next) => {
   })(req, res, next);
 };
 
-const refreshToken = async (req, res, next) => {
-  try {
-    const refreshToken = req.cookies.refreshToken;
-    const refreshTokenPayload = jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET_KEY
-    );
-    const userId = refreshTokenPayload.userId;
-    const user = await User.findOne({
-      _id: userId,
-      token: { $in: [refreshToken] },
-    });
-    if (!user) {
-      const error = new Error("refresh token kadaluarsa");
-      error.statusCode = 401;
-      error.name = "unauthorized";
-      throw error;
-    }
-    const accessToken = jwt.sign(
-      { userId: user._id },
-      process.env.ACCESS_TOKEN_SECRET_KEY,
-      {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRED,
-      }
-    );
-    return res.status(200).json({
-      message: "akses token berhasil di buat",
-      data: {
-        accessToken,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 const logout = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
-    const token = jwt.verify(
-      refreshToken,
-      process.env.REFRESH_TOKEN_SECRET_KEY
-    );
-    const user = await User.findOneAndUpdate(
-      { _id: token.userId, token: { $in: [refreshToken] } },
-      { $pull: { token: refreshToken } }
-    );
-    if (!user) {
-      const error = new Error("refresh token kadaluarsa");
-      error.statusCode = 401;
-      error.name = "unauthorized";
-      throw error;
-    }
+    const token = req.token;
+    await User.findOneAndUpdate({ $pull: { token: token } });
     return res.status(200).json({ message: "logout berhasil" });
   } catch (error) {
     next(error);
@@ -138,4 +80,4 @@ const profile = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, logout, refreshToken, profile };
+module.exports = { register, login, logout, profile };
