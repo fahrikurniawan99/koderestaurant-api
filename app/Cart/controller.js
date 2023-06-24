@@ -3,8 +3,9 @@ const CartItem = require("../CartItem/model");
 const updateCartItem = async (req, res, next) => {
   try {
     const payload = req.body;
-    const items =
-      typeof payload === "string" ? JSON.parse(payload.items) : payload.items;
+    // const items =
+    //   typeof payload === "string" ? JSON.parse(payload.items) : payload.items;
+    const items = JSON.parse(payload.items);
     await CartItem.deleteMany({ user: req.user.userId });
     await CartItem.bulkWrite(
       items.map((item) => {
