@@ -12,7 +12,7 @@ const OrderSchema = new Schema(
         "Sedang di kirim",
         "Sukses di kirim",
       ],
-      default: "Menunggu pembayaran",
+      default: "Sukses di kirim",
     },
     deliveryFee: {
       type: Number,
@@ -26,7 +26,7 @@ const OrderSchema = new Schema(
       },
       district: { type: String, required: [true, "silahkan isi kecamatan"] },
       village: {
-        type: Strin,
+        type: String,
         required: [true, "silahkan isi desa / kelurahan"],
       },
     },
