@@ -2,14 +2,21 @@ const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 
 const InvoiceSchema = new Schema({
-  subTotal: {
-    type: Number,
-    required: [true, "silahkan isi sub total"],
+  paymentMethod: {
+    type: String,
+    required: [true, "silahkan isi metode pembayaran"],
   },
-  total: {
-    type: Number,
-    required: [true, "silahkan isi harga total"],
-  },
+  invoiceId: String,
+  items: [
+    {
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      qty: Number,
+      totalPrice: Number,
+    },
+  ],
   order: {
     type: Schema.Types.ObjectId,
     ref: "Order",

@@ -1,7 +1,7 @@
 const User = require("../User/model");
-const idGenerator = require("../libs/idGenerator");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const { nanoid } = require("nanoid");
 require("dotenv").config();
 
 const register = async (req, res, next) => {
@@ -12,7 +12,7 @@ const register = async (req, res, next) => {
       email: payload.email,
       password: payload.password,
       role: payload.role,
-      customerId: idGenerator(5),
+      customerId: nanoid(5),
     });
     return res.status(201).json({
       message: "registrasi sukses",
