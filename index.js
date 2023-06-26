@@ -22,6 +22,7 @@ const TagRouter = require("./app/Tag/router");
 const AuthRouter = require("./app/Auth/router");
 const CartRouter = require("./app/Cart/router");
 const OrderRouter = require("./app/Order/router");
+const InvoiceRouter = require("./app/Invoice/router");
 const errorHandler = require("./app/middlewares/errorHandler");
 
 app.get("/", (req, res) => res.json({ message: "hello world" }));
@@ -30,6 +31,7 @@ app.use("/api", CategoryRouter);
 app.use("/api", TagRouter);
 app.use("/api", CartRouter);
 app.use("/api", OrderRouter);
+app.use("/api", InvoiceRouter);
 
 app.use("/api/auth", AuthRouter);
 
