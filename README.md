@@ -1,4 +1,4 @@
-# Rekash - POS
+# Kode Restaurant - Restfull API
 Rekash adalah sebuah sistem point of sales (POS) yang membuat transaksi digital menjadi mudah. Lalu apa itu POS sistem, Point of Sales (POS) adalah sebuah sistem yang dapat mendukung transaksi penjualan, pembelian, pengelolaan produk maupun laporan transaksi secara digital.
 
 ## User Stories & Entity
