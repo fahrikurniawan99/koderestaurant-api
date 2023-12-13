@@ -25,6 +25,11 @@ const OrderRouter = require("./app/Order/router");
 const InvoiceRouter = require("./app/Invoice/router");
 const errorHandler = require("./app/middlewares/errorHandler");
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 app.get("/", (req, res) => res.json({ message: "hello world" }));
 app.use("/api", ProductRouter);
 app.use("/api", CategoryRouter);
