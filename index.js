@@ -5,6 +5,10 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -24,11 +28,6 @@ const CartRouter = require("./app/Cart/router");
 const OrderRouter = require("./app/Order/router");
 const InvoiceRouter = require("./app/Invoice/router");
 const errorHandler = require("./app/middlewares/errorHandler");
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
 
 app.get("/", (req, res) => res.json({ message: "hello world" }));
 app.use("/api", ProductRouter);
